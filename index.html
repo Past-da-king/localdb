@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Name List</title>
+<style>
+    /* Your CSS styles */
+    #nameList {
+        list-style-type: none;
+        padding: 0;
+    }
+    #nameList li {
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+    <h1>Name List</h1>
+    <label for="nameInput">Add a Name:</label>
+    <input type="text" id="nameInput">
+    <button onclick="addName()">Add</button>
+
+    <h2>Names:</h2>
+    <ul id="nameList"></ul>
+
+    <script>
+        // Function to add a name to the list
+        function addName() {
+            var name = document.getElementById("nameInput").value;
+            if (name.trim() !== "") {
+                // Retrieve existing names from localStorage
+                var names = JSON.parse(localStorage.getItem("names")) || [];
+                // Add the new name to the list
+                names.push(name);
+                // Save the updated list back to localStorage
+                localStorage.setItem("names", JSON.stringify(names));
+                // Update the displayed list
+                displayNames();
+                // Clear the input field
+                document.getElementById("nameInput").value = "";
+            } else {
+                alert("Please enter a valid name.");
+            }
+        }
+
+        // Function to display the list of names
+        function displayNames() {
+            var names = JSON.parse(localStorage.getItem("names")) || [];
+            var nameList = document.getElementById("nameList");
+            // Clear the existing list
+            nameList.innerHTML = "";
+            // Add each name to the list
+            names.forEach(function(name) {
+                var listItem = document.createElement("li");
+                listItem.textContent = name;
+                nameList.appendChild(listItem);
+            });
+        }
+
+        // Call displayNames function when the page loads
+        window.onload = function() {
+            displayNames();
+        };
+    </script>
+</body>
+</html>
